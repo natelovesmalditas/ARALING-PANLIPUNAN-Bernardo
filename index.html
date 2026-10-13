@@ -1,1 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilipinas: Usaping Panlipunan</title>
 
+<style>
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef3f9;
+    color: #222;
+}
+
+/* HEADER */
+header {
+    background: #123f7a;
+    color: white;
+    padding: 25px 15px;
+    text-align: center;
+    border-bottom: 6px solid #ffd447;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+header p {
+    max-width: 800px;
+    margin: 12px auto 0;
+    line-height: 1.6;
+}
+
+/* NAVIGATION */
+nav {
+    background: #ffd447;
+    padding: 13px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav a {
+    display: inline-block;
+    text-decoration: none;
+    color: #123f7a;
+    font-weight: bold;
+    padding: 8px 12px;
+}
+
+nav a:hover {
+    background: white;
+    border-radius: 5px;
+}
+
+/* GENERAL LAYOUT */
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: 25px auto;
+}
+
+.panel {
+    background: white;
+    padding: 22px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #00000012;
+}
+
+h2 {
+    color: #164b91;
+}
+
+p, li {
+    line-height: 1.7;
+}
+
+/* SEARCH */
+.search-box {
+    display: flex;
+    gap: 8px;
+    margin: 18px 0;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 15px;
+    font-weight: bold;
+}
+
+.search-button {
+    background: #164b91;
+    color: white;
+}
+
+/* LOCATION BUTTONS */
+.location-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.location-button {
+    background: #e8f0ff;
+    color: #164b91;
+    border: 1px solid #c7d8f5;
+    text-align: left;
+    min-height: 54px;
+}
+
+.location-button:hover,
+.location-button.active {
+    background: #164b91;
+    color: white;
+}
+
+/* ISSUE CARDS */
+.issue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.issue-card {
+    background: white;
+    border: 1px solid #d5deeb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.issue-card .card-top {
+    background: #164b91;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.issue-card .card-body {
+    padding: 15px;
+}
+
+.issue-card button {
+    background: #ffd447;
+    color: #173b6d;
+    margin-top: 8px;
+}
+
+.tag {
+    display: inline-block;
+    background: #fff0b5;
+    color: #624900;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* DETAIL AREA */
+#locationDetails {
+    display: none;
+    border-top: 5px solid #ffd447;
+}
+
+.detail-heading {
+    background: #164b91;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.detail-heading h2 {
+    color: white;
+    margin-top: 0;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 18px;
+}
+
+.detail-box {
+    background: #f2f6fd;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #164b91;
+}
+
+.detail-box h3 {
+    color: #164b91;
+    margin-top: 0;
+}
+
+/* NATIONAL ISSUES */
+.national-issue {
+    padding: 17px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.national-issue:last-child {
+    border-bottom: none;
+}
+
+/* FOOTER */
+footer {
+    background: #123f7a;
+    color: white;
+    text-align: center;
+    padding: 24px;
+    margin-top: 35px;
+}
+
+.small-note {
+    color: #555;
+    font-size: 13px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 24px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    nav {
+        position: static;
+    }
+
+    nav a {
+        padding: 7px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🇵🇭 PILIPINAS: USAPING PANLIPUNAN</h1>
+    <p><b>Araling Panlipunan | Grade 10</b></p>
+    <p>
+        Paano nag-uugnay ang sistema at usaping panlipunan
+        sa pang-araw-araw na pamumuhay ng mga Pilipino?
+    </p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#locations">Mga Lokasyon</a>
+    <a href="#allIssues">Mga Isyu</a>
+    <a href="#solutions">Mga Solusyon</a>
+    <a href="#about">Tungkol</a>
+</nav>
+
+<main class="container">
+
+<section class="panel" id="home">
+    <h2>Maligayang Pagdating!</h2>
+    <p>
+        Ang website na ito ay tungkol sa mga usaping panlipunan sa
+        Pilipinas at kung paano naaapektuhan ng mga sistema ng
+        pamahalaan, edukasyon, transportasyon, kalusugan, at ekonomiya
+        ang ating pang-araw-araw na buhay.
+    </p>
+    <p>
+        <b>Paano gamitin:</b> Pumili ng lokasyon sa ibaba upang makita
+        ang mga halimbawang isyu, sanhi, epekto, at posibleng solusyon.
+        Maaari mo ring hanapin ang isang partikular na suliranin.
+    </p>
+
+    <div class="search-box">
+        <input type="text" id="searchInput"
+        placeholder="Hanapin: trapiko, kahirapan, baha, edukasyon..."
+        onkeydown="if(event.key === 'Enter') searchIssues()">
+        <button class="search-button" onclick="searchIssues()">
+            Search
+        </button>
+    </div>
+    <p id="searchMessage" aria-live="polite"></p>
+</section>
+
+<section class="panel" id="locations">
+    <h2>📍 Piliin ang Lokasyon</h2>
+    <p>
+        Pindutin ang isang lugar upang makita ang mga isyung
+        maaaring maranasan doon. Ang mga ito ay pangkalahatang
+        halimbawa, hindi kumpletong tala ng lahat ng lokal na problema.
+    </p>
+
+    <div class="location-list" id="locationButtons"></div>
+</section>
+
+<section class="panel" id="locationDetails" aria-live="polite">
+    <div class="detail-heading">
+        <h2 id="detailTitle">Impormasyon ng Lokasyon</h2>
+        <p id="detailIntro"></p>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-box">
+            <h3>Mga Isyu</h3>
+            <ul id="detailIssues"></ul>
+        </div>
+
+        <div class="detail-box">
+            <h3>Mga Posibleng Sanhi</h3>
+            <ul id="detailCauses"></ul>
+        </div>
+
+        <div class="detail-box">
+            <h3>Epekto sa Pang-araw-araw na Buhay</h3>
+            <ul id="detailEffects"></ul>
+        </div>
+
+        <div class="detail-box">
+            <h3>Mga Posibleng Solusyon</h3>
+            <ul id="detailSolutions"></ul>
+        </div>
+    </div>
+
+    <p class="small-note">
+        Paalala: Nagkakaiba ang mga kondisyon sa bawat barangay at lungsod.
+        Ang mga halimbawa ay hindi nangangahulugang lahat ng problemang
+        nakalista ay nararanasan sa bawat bahagi ng lugar.
+    </p>
+</section>
+
+<section class="panel" id="allIssues">
+    <h2>📚 Mga Pangunahing Usaping Panlipunan</h2>
+    <p>
+        Piliin ang “Alamin” upang basahin ang mas detalyadong
+        impormasyon tungkol sa bawat paksa.
+    </p>
+    <div class="issue-grid" id="issueCards"></div>
+</section>
+
+<section class="panel" id="solutions">
+    <h2>💡 Ano ang Maaaring Gawin?</h2>
+
+    <div class="national-issue">
+        <h3>1. Pamahalaan</h3>
+        <p>
+            Magpatupad ng maayos at makatarungang mga programa,
+            gamitin nang responsable ang pondo ng bayan, at tiyaking
+            naaabot ng serbisyo ang mga nangangailangan.
+        </p>
+    </div>
+
+    <div class="national-issue">
+        <h3>2. Paaralan</h3>
+        <p>
+            Suportahan ang pag-aaral ng mga kabataan, panatilihing
+            ligtas ang paaralan, at hikayatin ang paggalang at
+            pakikilahok sa mga gawaing pangkomunidad.
+        </p>
+    </div>
+
+    <div class="national-issue">
+        <h3>3. Pamilya at Mamamayan</h3>
+        <p>
+            Magtipid ng likas na yaman, magtapon ng basura nang tama,
+            sumunod sa mga batas, at makilahok sa mga programa
+            ng komunidad.
+        </p>
+    </div>
+
+    <div class="national-issue">
+        <h3>4. Komunidad</h3>
+        <p>
+            Magtulungan sa paglilinis, paghahanda sa sakuna,
+            pagtulong sa mga nangangailangan, at pag-uulat ng
+            mga problemang dapat aksiyunan.
+        </p>
+    </div>
+</section>
+
+<section class="panel" id="about">
+    <h2>📖 Bakit Mahalaga ang Tema?</h2>
+    <p>
+        Magkakaugnay ang mga sistema at usaping panlipunan.
+        Halimbawa, ang kakulangan sa trabaho ay maaaring magdulot
+        ng kahirapan. Ang kahirapan naman ay maaaring maging hadlang
+        sa edukasyon at serbisyong pangkalusugan.
+    </p>
+    <p>
+        Ang problema sa transportasyon ay maaaring makaapekto sa
+        pagpasok sa trabaho at paaralan. Ang pagbaha ay maaaring
+        makasira ng tahanan, negosyo, at mga kalsada.
+    </p>
+    <p>
+        <b>Konklusyon:</b> Ang maayos na sistema at pagtutulungan
+        ng pamahalaan at mamamayan ay mahalaga upang mapabuti ang
+        kalidad ng buhay ng mga Pilipino.
+    </p>
+</section>
+
+</main>
+
+<footer>
+    <h3>🇵🇭 Pilipinas: Usaping Panlipunan</h3>
+    <p>Araling Panlipunan | Grade 10 Project</p>
+    <p>Pag-unawa sa mga isyu, pagbuo ng solusyon, at pagtutulungan.</p>
+</footer>
+
+<script>
+/*
+  This is an educational overview.
+  Local issues vary, and the examples are not live reports.
+*/
+
+const issues = [
+{
+    name: "Trapiko at Transportasyon",
+    short: "Pagbiyahe, pampublikong sasakyan, at kaligtasan sa kalsada.",
+    causes: [
+        "Maraming sasakyan sa mga pangunahing kalsada.",
+        "Hindi pantay ang access sa maayos na pampublikong transportasyon.",
+        "Kulang o hindi episyente ang ilang imprastraktura at ruta."
+    ],
+    effects: [
+        "Mas mahabang oras sa pagbiyahe.",
+        "Dagdag na gastos sa pamasahe at gasolina.",
+        "Pagkaantala sa trabaho, pag-aaral, at paghahatid ng produkto."
+    ],
+    solutions: [
+        "Pagbutihin ang pampublikong transportasyon.",
+        "Ayusin ang pamamahala sa trapiko at mga tawiran.",
+        "Magplano ng mas ligtas at maayos na mga kalsada."
+    ],
+    keywords: "trapiko kalsada sasakyan commute transportasyon pamasahe"
+},
+{
+    name: "Kahirapan at Gastusin",
+    short: "Hirap sa pagtustos ng pagkain, tirahan, kuryente, at iba pang pangangailangan.",
+    causes: [
+        "Kulang ang sapat at matatag na oportunidad sa trabaho.",
+        "Hindi sapat ang kita ng ilang pamilya para sa kanilang pangangailangan.",
+        "Tumataas na presyo ng ilang bilihin at serbisyo."
+    ],
+    effects: [
+        "Pagbabawas sa gastusin sa pagkain o iba pang pangangailangan.",
+        "Hirap sa pagbabayad ng upa, kuryente, at tubig.",
+        "Mas kaunting pagkakataon para sa edukasyon at kalusugan."
+    ],
+    solutions: [
+        "Lumikha ng disenteng trabaho at kabuhayan.",
+        "Palawakin ang mga programang panlipunan para sa nangangailangan.",
+        "Suportahan ang pagsasanay at edukasyon sa trabaho."
+    ],
+    keywords: "kahirapan presyo bilihin inflation gastos pagkain pera gutom"
+},
+{
+    name: "Edukasyon",
+    short: "Kalidad ng pag-aaral, pasilidad, kagamitan, at pantay na oportunidad.",
+    causes: [
+        "Kakulangan sa ilang silid-aralan at kagamitan.",
+        "Hirap sa pamasahe, internet, o mga gamit sa paaralan.",
+        "Pagkakaiba ng mga mapagkukunan sa iba't ibang komunidad."
+    ],
+    effects: [
+        "Hamon sa pag-aaral at pagpasok.",
+        "Pagkakaiba sa access sa mga oportunidad.",
+        "Maaaring maapektuhan ang paghahanda sa trabaho sa hinaharap."
+    ],
+    solutions: [
+        "Pagbutihin ang mga pasilidad at kagamitan.",
+        "Suportahan ang mga guro at mag-aaral.",
+        "Palawakin ang access sa learning materials at internet."
+    ],
+    keywords: "edukasyon paaralan estudyante guro classroom internet pag-aaral"
+},
+{
+    name: "Kalusugan",
+    short: "Pag-access sa doktor, ospital, gamot, at serbisyong pangkalusugan.",
+    causes: [
+        "Limitadong pasilidad o tauhan sa ilang lugar.",
+        "Gastos sa pagpapagamot at transportasyon.",
+        "Kakulangan sa impormasyon o serbisyong pang-iwas sa sakit."
+    ],
+    effects: [
+        "Pagkaantala sa pagpapatingin o paggamot.",
+        "Dagdag na gastos para sa pamilya.",
+        "Pagliban sa trabaho o paaralan dahil sa karamdaman."
+    ],
+    solutions: [
+        "Palakasin ang mga health center at pampublikong ospital.",
+        "Palawakin ang serbisyong pang-iwas sa sakit.",
+        "Pagbutihin ang access sa abot-kayang pangangalaga."
+    ],
+    keywords: "kalusugan ospital doktor gamot sakit health center healthcare"
+},
+{
+    name: "Baha at Kalamidad",
+    short: "Bagyo, pagbaha, lindol, at paghahanda sa sakuna.",
+    causes: [
+        "Malakas na ulan at bagyo.",
+        "Baradong drainage at maling pagtatapon ng basura.",
+        "Pagtira o pagtatayo ng bahay sa mga lugar na mataas ang panganib."
+    ],
+    effects: [
+        "Pagkasira ng tahanan at ari-arian.",
+        "Pagkaantala ng klase at trabaho.",
+        "Panganib sa kaligtasan at pagkawala ng kabuhayan."
+    ],
+    solutions: [
+        "Panatilihing malinis ang kanal at daluyan ng tubig.",
+        "Pagbutihin ang disaster preparedness at early warnings.",
+        "Sundin ang evacuation instructions at land-use plans."
+    ],
+    keywords: "baha bagyo lindol sakuna ulan basura drainage climate disaster"
+},
+{
+    name: "Trabaho at Sahod",
+    short: "Pagkakaroon ng trabaho, disenteng sahod, at seguridad sa hanapbuhay.",
+    causes: [
+        "Kulang ang angkop na trabaho sa ilang lugar.",
+        "Hindi tugma ang ilang kasanayan sa pangangailangan ng trabaho.",
+        "Hindi pantay ang oportunidad sa iba't ibang sektor."
+    ],
+    effects: [
+        "Hindi regular ang kita ng ilang pamilya.",
+        "Hirap sa pagbabayad ng pangunahing gastusin.",
+        "Maaaring mapilitan ang ilan na lumipat ng lugar para maghanapbuhay."
+    ],
+    solutions: [
+        "Palawakin ang pagsasanay at skills development.",
+        "Suportahan ang maliliit na negosyo.",
+        "Itaguyod ang ligtas na trabaho at makatarungang pasahod."
+    ],
+    keywords: "trabaho sahod unemployment empleyo negosyo manggagawa sweldo"
+},
+{
+    name: "Basura at Polusyon",
+    short: "Solid waste, maruming hangin, at polusyon sa tubig.",
+    causes: [
+        "Hindi wastong pagtatapon at paghihiwalay ng basura.",
+        "Sobrang paggamit ng mga produktong disposable.",
+        "Polusyon mula sa ilang sasakyan, negosyo, at gawain."
+    ],
+    effects: [
+        "Pagbara ng mga kanal at paglala ng baha.",
+        "Panganib sa kalusugan at kapaligiran.",
+        "Pagkasira ng mga ilog, dagat, at tirahan ng mga hayop."
+    ],
+    solutions: [
+        "Mag-segregate at mag-recycle ng basura.",
+        "Bawasan ang single-use plastics.",
+        "Palakasin ang waste collection at pagpapatupad ng batas."
+    ],
+    keywords: "basura polusyon plastic recycle kapaligiran ilog dagat hangin"
+},
+{
+    name: "Kakulangan sa Pabahay",
+    short: "Ligtas at abot-kayang tirahan para sa mga pamilya.",
+    causes: [
+        "Mataas na presyo o upa sa ilang lugar.",
+        "Kakulangan sa abot-kayang pabahay.",
+        "Paglipat ng mga tao sa mga sentrong may trabaho."
+    ],
+    effects: [
+        "Pagsisiksikan sa ilang komunidad.",
+        "Hamon sa access sa tubig, palikuran, at iba pang serbisyo.",
+        "Mas malaking panganib kapag nakatira sa lugar na madaling bahain."
+    ],
+    solutions: [
+        "Magplano ng ligtas at abot-kayang pabahay.",
+        "Pagbutihin ang tubig, sanitasyon, at serbisyong pangkomunidad.",
+        "Isama ang mga residente sa pagpaplano ng relokasyon."
+    ],
+    keywords: "pabahay bahay tirahan informal settlers upa tubig sanitasyon"
+},
+{
+    name: "Korapsyon at Pamamahala",
+    short: "Pananagutan, transparency, at wastong paggamit ng pondo ng bayan.",
+    causes: [
+        "Mahinang transparency o pananagutan.",
+        "Hindi sapat na pangangasiwa sa ilang proseso.",
+        "Kakulangan sa pagpapatupad ng mga patakaran."
+    ],
+    effects: [
+        "Maaaring masayang ang pondong para sa serbisyo publiko.",
+        "Pagbaba ng tiwala sa mga institusyon.",
+        "Maaaring maantala ang mga proyektong kailangan ng komunidad."
+    ],
+    solutions: [
+        "Palakasin ang transparency at independent oversight.",
+        "Ipatupad ang mga batas nang patas.",
+        "Hikayatin ang responsableng pakikilahok ng mamamayan."
+    ],
+    keywords: "korapsyon corruption pamahalaan gobyerno transparency batas"
+},
+{
+    name: "Digital Divide at Internet",
+    short: "Hindi pantay na access sa internet at teknolohiya.",
+    causes: [
+        "Mahinang signal o limitadong imprastraktura sa ilang lugar.",
+        "Gastos sa internet at mga device.",
+        "Pagkakaiba sa digital skills at kaalaman."
+    ],
+    effects: [
+        "Hirap sa online learning at ilang serbisyo.",
+        "Limitadong access sa impormasyon at oportunidad.",
+        "Hamon sa komunikasyon at digital na trabaho."
+    ],
+    solutions: [
+        "Palawakin ang maaasahang internet access.",
+        "Magbigay ng digital literacy training.",
+        "Suportahan ang access sa ligtas at abot-kayang teknolohiya."
+    ],
+    keywords: "internet wifi signal cellphone computer teknolohiya digital"
+},
+{
+    name: "Diskriminasyon at Hindi Pagkakapantay-pantay",
+    short: "Hindi pantay na pagtrato o oportunidad sa lipunan.",
+    causes: [
+        "Pagkiling at maling paniniwala tungkol sa ibang grupo.",
+        "Hindi pantay na access sa edukasyon at trabaho.",
+        "Kakulangan sa kaalaman tungkol sa karapatan ng tao."
+    ],
+    effects: [
+        "Pagkakait ng oportunidad.",
+        "Pagkakaroon ng hindi ligtas o hindi makatarungang kapaligiran.",
+        "Paglala ng hindi pagkakapantay-pantay."
+    ],
+    solutions: [
+        "Itaguyod ang paggalang at pantay na karapatan.",
+        "Magbigay ng patas na oportunidad.",
+        "Iulat ang diskriminasyon sa naaangkop na awtoridad."
+    ],
+    keywords: "diskriminasyon equality karapatan hindi pagkakapantay pantay bullying"
+},
+{
+    name: "Agrikultura at Pagkain",
+    short: "Kabuhayan ng magsasaka at mangingisda, suplay, at presyo ng pagkain.",
+    causes: [
+        "Pagbabago ng panahon at mga kalamidad.",
+        "Gastos sa produksyon at transportasyon.",
+        "Mga hamon sa irigasyon, kagamitan, at access sa pamilihan."
+    ],
+    effects: [
+        "Pagbabago sa presyo at suplay ng pagkain.",
+        "Pagkawala o pagbaba ng kita ng ilang prodyuser.",
+        "Hamon sa seguridad sa pagkain ng mga pamilya."
+    ],
+    solutions: [
+        "Suportahan ang mga magsasaka at mangingisda.",
+        "Pagbutihin ang irigasyon, imbakan, at transportasyon.",
+        "Palakasin ang paghahanda sa kalamidad at climate resilience."
+    ],
+    keywords: "agrikultura magsasaka mangingisda palay bigas pagkain bukid isda"
+}
+];
+
+const locations = [
+{
+    name: "Metro Manila",
+    intro: "Isang malaking urban area kung saan mahalagang usapin ang transportasyon, pabahay, serbisyo publiko, at polusyon.",
+    issues: ["Trapiko at pampublikong transportasyon", "Kakulangan sa abot-kayang pabahay", "Basura at polusyon", "Baha sa ilang komunidad"],
+    causes: ["Densidad ng populasyon at aktibidad", "Pangangailangan sa transportasyon at pabahay", "Drainage, waste management, at urban planning challenges"],
+    effects: ["Mahabang biyahe", "Gastos sa upa at pang-araw-araw na pangangailangan", "Pagkaantala ng trabaho at klase"],
+    solutions: ["Pagbutihin ang mass transport", "Ayusin ang drainage at waste management", "Magplano ng ligtas at abot-kayang pabahay"]
+},
+{
+    name: "Cordillera / Baguio",
+    intro: "Sa mga komunidad sa kabundukan, mahalaga ang usapin ng transportasyon, turismo, kapaligiran, at access sa serbisyo.",
+    issues: ["Trapiko sa sentrong urban at panahon ng turista", "Pagguho ng lupa sa mga lugar na mataas ang panganib", "Basura at pangangalaga sa kalikasan", "Access sa serbisyo sa malalayong komunidad"],
+    causes: ["Bulubunduking heograpiya", "Malakas na ulan at mga dalisdis", "Pagdami ng bisita at aktibidad"],
+    effects: ["Pagkaantala ng biyahe", "Panganib sa ilang kalsada", "Presyon sa lokal na serbisyo at kapaligiran"],
+    solutions: ["Ligtas na land-use planning", "Responsableng turismo", "Paghahanda sa landslide at malakas na ulan"]
+},
+{
+    name: "Ilocos Region",
+    intro: "Sa mga baybaying at agrikultural na komunidad, mahalaga ang kabuhayan, tubig, agrikultura, at paghahanda sa bagyo.",
+    issues: ["Kabuhayan sa agrikultura at pangingisda", "Panganib mula sa bagyo", "Access sa trabaho at serbisyo sa ilang lugar"],
+    causes: ["Pagbabago ng panahon", "Pag-asa sa mga lokal na industriya", "Pagkakaiba ng access sa imprastraktura"],
+    effects: ["Pagbabago sa kita at suplay ng pagkain", "Pinsala sa pananim at kagamitan", "Pagkaantala ng biyahe at serbisyo"],
+    solutions: ["Suporta sa magsasaka at mangingisda", "Disaster preparedness", "Pagpapabuti ng lokal na imprastraktura"]
+},
+{
+    name: "Cagayan Valley",
+    intro: "Sa ilang komunidad sa lambak at tabi ng ilog, mahalagang pagtuunan ang agrikultura, pagbaha, at mga serbisyong pangkomunidad.",
+    issues: ["Pagbaha sa mga lugar na lantad sa panganib", "Kabuhayan at agrikultura", "Transportasyon at access sa serbisyo"],
+    causes: ["Malakas na ulan at bagyo", "Pag-asa sa produksyon ng agrikultura", "Heograpiya at kondisyon ng imprastraktura"],
+    effects: ["Pinsala sa pananim at ari-arian", "Pagkawala ng kita", "Pagkaantala ng klase at trabaho"],
+    solutions: ["Maagang babala at evacuation planning", "Suporta sa mga magsasaka", "Pagpapanatili ng drainage at ligtas na imprastraktura"]
+},
+{
+    name: "Central Luzon",
+    intro: "Ang agrikultura, industriya, transportasyon, at paglawak ng mga pamayanan ay mahahalagang usapin sa rehiyon.",
+    issues: ["Trapiko at paglawak ng urban areas", "Baha sa mga lugar na lantad sa panganib", "Agrikultura at trabaho", "Polusyon sa ilang lugar"],
+    causes: ["Pagdami ng tirahan at negosyo", "Pagbabago ng paggamit ng lupa", "Panganib mula sa panahon at kalamidad"],
+    effects: ["Pagbabago sa oras ng biyahe", "Hamon sa kabuhayan at produksyon", "Pangangailangan sa mas maayos na serbisyo"],
+    solutions: ["Maayos na land-use planning", "Pagsuporta sa agrikultura at trabaho", "Pagbutihin ang transportasyon at disaster readiness"]
+},
+{
+    name: "CALABARZON",
+    intro: "Pinagsasama ng rehiyon ang mga pamayanang urban, industriya, agrikultura, at mga baybaying lugar.",
+    issues: ["Trapiko at pagbiyahe", "Pagdami ng pangangailangan sa pabahay", "Basura at polusyon", "Paghahanda sa bagyo at baha"],
+    causes: ["Paglawak ng mga sentrong pangkabuhayan", "Pagdami ng populasyon sa ilang lugar", "Mga hamon sa pamamahala ng basura at tubig"],
+    effects: ["Mas mahabang commute", "Presyon sa lokal na serbisyo", "Panganib sa kalusugan at kapaligiran"],
+    solutions: ["Mas maayos na pampublikong transportasyon", "Responsableng urban planning", "Epektibong waste management at disaster preparedness"]
+},
+{
+    name: "Bicol Region",
+    intro: "Mahalaga sa rehiyon ang paghahanda sa bagyo, aktibidad ng bulkan, kabuhayan, at kaligtasan ng mga komunidad.",
+    issues: ["Bagyo at pagbaha", "Panganib mula sa aktibidad ng bulkan sa mga apektadong lugar", "Kabuhayan at agrikultura", "Access sa serbisyo matapos ang sakuna"],
+    causes: ["Lokasyon at heograpiya", "Matitinding kondisyon ng panahon", "Pag-asa ng ilang pamilya sa lokal na kabuhayan"],
+    effects: ["Pinsala sa tahanan at pananim", "Paglikas at pagkaantala ng klase", "Pagbabago sa kita ng pamilya"],
+    solutions: ["Sundin ang opisyal na babala", "Maghanda ng emergency supplies", "Suportahan ang mabilis at ligtas na pagbangon"]
+},
+{
+    name: "Western Visayas / Iloilo",
+    intro: "Sa mga urban at baybaying komunidad, mahalaga ang transportasyon, trabaho, agrikultura, at pangangalaga sa tubig.",
+    issues: ["Transportasyon at urban services", "Kabuhayan sa agrikultura at pangingisda", "Basura at pangangalaga sa baybayin", "Paghahanda sa bagyo"],
+    causes: ["Paglawak ng mga sentrong urban", "Pagbabago ng panahon", "Mga hamon sa waste management"],
+    effects: ["Pagkaantala sa biyahe", "Pagbabago sa kita ng ilang pamilya", "Panganib sa kapaligiran at kabuhayan"],
+    solutions: ["Ayusin ang lokal na transportasyon", "Protektahan ang mga daluyan ng tubig", "Palakasin ang disaster preparedness"]
+},
+{
+    name: "Central Visayas / Cebu",
+    intro: "Ang turismo, transportasyon, trabaho, at paglawak ng mga pamayanan ay mahahalagang usapin sa ilang bahagi ng rehiyon.",
+    issues: ["Trapiko at transportasyon", "Pangangailangan sa pabahay", "Basura at polusyon", "Access sa serbisyo sa mga isla at malalayong lugar"],
+    causes: ["Paglaki ng mga urban center", "Aktibidad ng turismo at negosyo", "Pagkakaiba ng access sa imprastraktura"],
+    effects: ["Mahabang biyahe", "Dagdag na gastusin", "Presyon sa tubig, basura, at iba pang serbisyo"],
+    solutions: ["Pagbutihin ang pampublikong transportasyon", "Responsableng turismo at waste management", "Palawakin ang access sa pangunahing serbisyo"]
+},
+{
+    name: "Eastern Visayas",
+    intro: "Mahalaga sa rehiyon ang disaster preparedness, agrikultura, pangingisda, at pagbangon matapos ang matitinding bagyo.",
+    issues: ["Bagyo at storm surge sa mga lantad na baybayin", "Kabuhayan sa agrikultura at pangingisda", "Access sa serbisyo sa malalayong lugar"],
+    causes: ["Pagkakalantad sa matitinding panahon", "Pag-asa sa likas na yaman", "Mga hamon sa imprastraktura"],
+    effects: ["Pinsala sa kabuhayan at bahay", "Pagkawala ng kita", "Pagkaantala sa transportasyon at edukasyon"],
+    solutions: ["Paghahanda at maagang babala", "Ligtas na evacuation planning", "Suporta sa kabuhayan at imprastraktura"]
+},
+{
+    name: "Zamboanga Peninsula",
+    intro: "Mahalagang usapin sa mga komunidad ang kabuhayan, serbisyong publiko, transportasyon, at kaligtasan.",
+    issues: ["Kabuhayan sa pangingisda at agrikultura", "Access sa edukasyon at kalusugan sa ilang lugar", "Transportasyon at imprastraktura"],
+    causes: ["Heograpiya at distansya sa mga serbisyo", "Pagkakaiba ng lokal na oportunidad", "Mga hamon sa transportasyon"],
+    effects: ["Dagdag na oras at gastos sa pagpunta sa serbisyo", "Pagbabago sa kita", "Hamon sa pag-aaral at kalusugan"],
+    solutions: ["Palawakin ang serbisyong pangkomunidad", "Suportahan ang lokal na kabuhayan", "Pagbutihin ang ligtas na transportasyon"]
+},
+{
+    name: "Northern Mindanao / CDO",
+    intro: "Sa mga sentrong urban at agrikultural na komunidad, mahalaga ang transportasyon, trabaho, tubig, at paghahanda sa baha.",
+    issues: ["Trapiko at paglawak ng mga pamayanan", "Pagbaha sa mga lugar na lantad sa panganib", "Trabaho at lokal na kabuhayan"],
+    causes: ["Pagdami ng aktibidad sa mga sentrong urban", "Malakas na ulan sa mga apektadong lugar", "Pagkakaiba ng oportunidad sa trabaho"],
+    effects: ["Pagkaantala ng biyahe", "Pinsala sa ari-arian sa panahon ng baha", "Pagbabago sa kita ng pamilya"],
+    solutions: ["Maayos na urban planning", "Pagpapanatili ng drainage at disaster readiness", "Paglikha ng disenteng oportunidad sa trabaho"]
+},
+{
+    name: "Davao Region",
+    intro: "Ang agrikultura, trabaho, transportasyon, at paghahanda sa kalamidad ay kabilang sa mga mahalagang usapin.",
+    issues: ["Kabuhayan sa agrikultura", "Transportasyon sa mga urban area", "Baha at paghahanda sa sakuna sa mga apektadong lugar"],
+    causes: ["Pagbabago ng panahon", "Paglawak ng mga sentrong urban", "Pag-asa sa ilang pangunahing industriya"],
+    effects: ["Pagbabago sa kita at presyo ng produkto", "Pagkaantala sa pagbiyahe", "Pinsala sa ari-arian sa panahon ng sakuna"],
+    solutions: ["Suportahan ang mga prodyuser", "Pagbutihin ang transportasyon", "Palakasin ang disaster preparedness"]
+},
+{
+    name: "SOCCSKSARGEN",
+    intro: "Sa mga agrikultural at urban na komunidad, mahalaga ang trabaho, agrikultura, pangingisda, at access sa serbisyo.",
+    issues: ["Kabuhayan at kita", "Agrikultura at produksyon ng pagkain", "Access sa edukasyon at kalusugan sa ilang lugar"],
+    causes: ["Pagbabago sa presyo at produksyon", "Pagkakaiba ng oportunidad sa trabaho", "Mga hamon sa imprastraktura"],
+    effects: ["Hindi tiyak na kita ng ilang pamilya", "Pagbabago sa presyo ng pagkain", "Gastos sa pagpunta sa serbisyo"],
+    solutions: ["Suportahan ang agrikultura at lokal na negosyo", "Palawakin ang pagsasanay sa trabaho", "Pagbutihin ang mga serbisyong pangkomunidad"]
+},
+{
+    name: "Caraga",
+    intro: "Mahalaga sa ilang komunidad ang pangangalaga sa likas na yaman, kabuhayan, transportasyon, at paghahanda sa sakuna.",
+    issues: ["Kabuhayan sa agrikultura, pangingisda, at likas na yaman", "Pagbaha at malakas na ulan sa mga lantad na lugar", "Access sa serbisyo sa malalayong komunidad"],
+    causes: ["Pagkakalantad sa panahon", "Pag-asa sa likas na yaman", "Distansya sa ilang pangunahing serbisyo"],
+    effects: ["Pagbabago sa kita", "Pagkaantala ng transportasyon", "Pangangailangan sa pangangalaga ng kapaligiran"],
+    solutions: ["Responsableng paggamit ng likas na yaman", "Disaster preparedness", "Pagpapabuti ng access sa mga serbisyo"]
+},
+{
+    name: "BARMM",
+    intro: "Mahalaga sa rehiyon ang edukasyon, serbisyong pangkalusugan, kabuhayan, imprastraktura, at pangmatagalang kapayapaan.",
+    issues: ["Access sa edukasyon at kalusugan sa ilang komunidad", "Kabuhayan at oportunidad sa trabaho", "Pangunahing imprastraktura at serbisyong publiko"],
+    causes: ["Pagkakaiba ng access sa mga serbisyo", "Mga hamon sa lokal na imprastraktura", "Pangangailangan sa kabuhayan at oportunidad"],
+    effects: ["Mas mahabang paglalakbay para sa ilang serbisyo", "Hamon sa kita ng pamilya", "Pangangailangan sa patuloy na pag-unlad ng komunidad"],
+    solutions: ["Palawakin ang edukasyon at serbisyong pangkalusugan", "Suportahan ang kabuhayan at pagsasanay", "Itaguyod ang kapayapaan at inklusibong pag-unlad"]
+},
+{
+    name: "Palawan",
+    intro: "Sa mga baybaying at islang komunidad, mahalaga ang turismo, pangingisda, kapaligiran, at transportasyon.",
+    issues: ["Basura at pangangalaga sa dagat", "Kabuhayan sa turismo at pangingisda", "Transportasyon at access sa serbisyo sa mga isla"],
+    causes: ["Pagdami ng aktibidad sa ilang destinasyon", "Pagdepende sa likas na yaman", "Heograpiya at distansya"],
+    effects: ["Epekto sa kabuhayan kapag nasira ang kapaligiran", "Pagbabago sa kita ayon sa turismo at panahon", "Mas mahabang biyahe para sa ilang serbisyo"],
+    solutions: ["Responsableng turismo", "Protektahan ang dagat at baybayin", "Pagbutihin ang waste management at access sa serbisyo"]
+}
+];
+
+const locationButtons = document.getElementById("locationButtons");
+const locationDetails = document.getElementById("locationDetails");
+const issueCards = document.getElementById("issueCards");
+
+function makeList(id, items) {
+    const list = document.getElementById(id);
+    list.replaceChildren();
+
+    items.forEach(function(item) {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+    });
+}
+
+function showLocation(index) {
+    const place = locations[index];
+    if (!place) return;
+
+    document.getElementById("detailTitle").textContent =
+        "📍 " + place.name;
+
+    document.getElementById("detailIntro").textContent =
+        place.intro;
+
+    makeList("detailIssues", place.issues);
+    makeList("detailCauses", place.causes);
+    makeList("detailEffects", place.effects);
+    makeList("detailSolutions", place.solutions);
+
+    locationDetails.style.display = "block";
+
+    document.querySelectorAll(".location-button").forEach(function(button, i) {
+        button.classList.toggle("active", i === index);
+    });
+
+    locationDetails.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+locations.forEach(function(place, index) {
+    const button = document.createElement("button");
+    button.className = "location-button";
+    button.textContent = "📍 " + place.name;
+    button.addEventListener("click", function() {
+        showLocation(index);
+    });
+    locationButtons.appendChild(button);
+});
+
+function showIssue(index) {
+    const issue = issues[index];
+    if (!issue) return;
+
+    document.getElementById("detailTitle").textContent =
+        "📚 " + issue.name;
+
+    document.getElementById("detailIntro").textContent =
+        issue.short;
+
+    makeList("detailIssues", [issue.name, issue.short]);
+    makeList("detailCauses", issue.causes);
+    makeList("detailEffects", issue.effects);
+    makeList("detailSolutions", issue.solutions);
+
+    locationDetails.style.display = "block";
+
+    document.querySelectorAll(".location-button").forEach(function(button) {
+        button.classList.remove("active");
+    });
+
+    locationDetails.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+issues.forEach(function(issue, index) {
+    const card = document.createElement("article");
+    card.className = "issue-card";
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    top.textContent = issue.name;
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+
+    const description = document.createElement("p");
+    description.textContent = issue.short;
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = "USAPING PANLIPUNAN";
+
+    const button = document.createElement("button");
+    button.textContent = "Alamin ang Isyu";
+    button.addEventListener("click", function() {
+        showIssue(index);
+    });
+
+    body.appendChild(tag);
+    body.appendChild(description);
+    body.appendChild(button);
+    card.appendChild(top);
+    card.appendChild(body);
+    issueCards.appendChild(card);
+});
+
+function searchIssues() {
+    const query = document.getElementById("searchInput")
+        .value.trim().toLocaleLowerCase("fil");
+
+    const message = document.getElementById("searchMessage");
+    let matches = 0;
+
+    document.querySelectorAll(".issue-card").forEach(function(card, index) {
+        const issue = issues[index];
+
+        const text = (
+            issue.name + " " +
+            issue.short + " " +
+            issue.keywords + " " +
+            issue.causes.join(" ") + " " +
+            issue.effects.join(" ") + " " +
+            issue.solutions.join(" ")
+        ).toLocaleLowerCase("fil");
+
+        const found = query === "" || text.includes(query);
+
+        card.classList.toggle("hidden", !found);
+
+        if (found) matches++;
+    });
+
+    locations.forEach(function(place, index) {
+        const button = locationButtons.children[index];
+
+        const text = (
+            place.name + " " +
+            place.intro + " " +
+            place.issues.join(" ") + " " +
+            place.causes.join(" ") + " " +
+            place.effects.join(" ") + " " +
+            place.solutions.join(" ")
+        ).toLocaleLowerCase("fil");
+
+        button.classList.toggle(
+            "hidden",
+            query !== "" && !text.includes(query)
+        );
+    });
+
+    if (query === "") {
+        message.textContent = "Ipinakita ang lahat ng usapin.";
+    } else {
+        message.textContent =
+            matches + " na paksa ang tumugma sa iyong paghahanap. " +
+            "Maaari ring pumili sa mga lokasyong tumugma sa ibaba.";
+    }
+
+    document.getElementById("allIssues").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+</script>
+
+</body>
+</html>
