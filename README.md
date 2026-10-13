@@ -1,0 +1,1 @@
+# ARALING-PANLIPUNAN-Bernardo
